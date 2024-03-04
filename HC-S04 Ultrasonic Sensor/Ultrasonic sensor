@@ -1,0 +1,19 @@
+int trig = 6;
+int echo = 5;
+void setup()
+{
+  Serial.begin(9600);
+  pinMode(echo, INPUT);
+  pinMode(trig, OUTPUT);
+}
+
+void loop()
+{
+  digitalWrite(trig, LOW);
+  digitalWrite(trig, HIGH);
+  digitalWrite(trig, LOW);
+  float time=pulseIn(echo,HIGH);
+  float distance = (time *0.34)/2;
+  Serial.println(distance/10);
+  delay(5000); // Wait for 1000 millisecond(s)
+}
