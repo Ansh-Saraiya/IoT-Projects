@@ -1,20 +1,35 @@
-LiquidCrystal lcd(13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3);	/* For 8-bit mode */
-//LiquidCrystal lcd(13, 12, 11, 6, 5, 4, 3);	/* For 4-bit mode */
+#include <LiquidCrystal.h>
 
-unsigned char Character1[8] = { 0x04, 0x1F, 0x11, 0x11, 0x1F, 0x1F, 0x1F, 0x1F };	/* Custom Character 1 */
-unsigned char Character2[8] = { 0x01, 0x03, 0x07, 0x1F, 0x1F, 0x07, 0x03, 0x01 };	/* Custom Character 2 */
+LiquidCrystal lcd(1, 2, 4, 5, 6, 7); 
 
+const int trigPin = 10;
+const int echoPin = 9;
+long duration;
+int distanceCm,distanceInch;
 void setup() {
-  lcd.begin(16,2);					/* Initialize 16x2 LCD */
-  lcd.clear();						/* Clear the LCD */
-  lcd.createChar(0, Character1);	/* Generate custom character */
-  lcd.createChar(1, Character2);
-}
+lcd.begin(19,2); // Initializes the interface to the LCD screen, and specifies the
 
+pinMode(trigPin, OUTPUT);
+pinMode(echoPin, INPUT);
+}
 void loop() {
-  lcd.setCursor(0,0);				/* Set cursor to column 0 row 0 */
-  lcd.print("Hello!!!!");			/* Print data on display */
-  lcd.setCursor(0,1);  
-  lcd.write(byte(0));				/* Write a character to display */
-  lcd.write(1);
+digitalWrite(trigPin, LOW);
+delayMicroseconds(2);
+digitalWrite(trigPin, HIGH);
+delayMicroseconds(10);
+digitalWrite(trigPin, LOW);
+duration = pulseIn(echoPin, HIGH);
+distanceCm= duration*0.034/2;
+distanceInch = duration*0.0133/2;
+lcd.setCursor(0,0); // Sets the location at which subsequent text written to the LCD
+
+lcd.print("Distance: "); // Prints string "Distance" on the LCD
+lcd.print(distanceCm); // Prints the distance value from the sensor
+lcd.print(" cm");
+delay(10);
+lcd.setCursor(0,1);
+lcd.print("Distance: ");
+lcd.print(distanceInch);
+lcd.print(" inch");
+delay(10);
 }
