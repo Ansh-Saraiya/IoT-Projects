@@ -1,21 +1,20 @@
-#include <LiquidCrystal.h>
+LiquidCrystal lcd(13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3);	/* For 8-bit mode */
+//LiquidCrystal lcd(13, 12, 11, 6, 5, 4, 3);	/* For 4-bit mode */
 
-// initialize the library by associating any needed LCD interface pin
-// with the arduino pin number it is connected to
-const int rs = D1, en = D2, d4 = D3, d5 = D4, d6 = D5, d7 = D6;
-LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+unsigned char Character1[8] = { 0x04, 0x1F, 0x11, 0x11, 0x1F, 0x1F, 0x1F, 0x1F };	/* Custom Character 1 */
+unsigned char Character2[8] = { 0x01, 0x03, 0x07, 0x1F, 0x1F, 0x07, 0x03, 0x01 };	/* Custom Character 2 */
 
 void setup() {
- // set up the LCD's number of columns and rows:
- lcd.begin(16, 2);
- // Print a message to the LCD.
- lcd.print("hello, world!");
+  lcd.begin(16,2);					/* Initialize 16x2 LCD */
+  lcd.clear();						/* Clear the LCD */
+  lcd.createChar(0, Character1);	/* Generate custom character */
+  lcd.createChar(1, Character2);
 }
 
 void loop() {
- // set the cursor to column 0, line 1
- // (note: line 1 is the second row, since counting begins with 0):
- lcd.setCursor(0, 1);
- // print the number of seconds since reset:
- lcd.print(millis() / 1000);
+  lcd.setCursor(0,0);				/* Set cursor to column 0 row 0 */
+  lcd.print("Hello!!!!");			/* Print data on display */
+  lcd.setCursor(0,1);  
+  lcd.write(byte(0));				/* Write a character to display */
+  lcd.write(1);
 }
